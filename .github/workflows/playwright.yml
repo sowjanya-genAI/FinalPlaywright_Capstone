@@ -37,9 +37,9 @@ jobs:
       run: npx playwright test
       env:
         # Injects your encrypted repository secrets into environment variables
-        GITHUB_USER: ${{ secrets.GITHUB_USER }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_USER_SESSION: ${{ secrets.GITHUB_USER_SESSION }}
+        GITHUB_USER: ${{ secrets.USERNAME }}
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        GITHUB_USER_SESSION: ${{ secrets.USER_TOKEN }}
     - uses: actions/upload-artifact@v5
       if: ${{ !cancelled() }}
       with:
