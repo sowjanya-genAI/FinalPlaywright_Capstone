@@ -1,0 +1,5 @@
+[
+  { "title": "Critical Bug: API Endpoint Timeout", "body": "Found severe performance degradation on bulk fetch requests.", "label": "bug" },
+  { "title": "Feature Request: Export to JSON", "body": "Add download action options layout parameter on UI view dashboard.", "label": "enhancement" },
+  { "title": "Documentation: Fix Missing Token Steps", "body": "Update secure auth setup manual guides inside readme markdown context.", "label": "documentation" }
+]

@@ -1,0 +1,14 @@
+[
+  { 
+    "scenario": "Missing Title Parameter",
+    "payload": { "body": "This issue lacks a required title field placeholder." },
+    "expectedStatus": 422,
+    "errorMsg": "Invalid request.\n\"title\" wasn't supplied."
+  },
+  {
+    "scenario": "Empty String Name Target",
+    "payload": { "title": "", "body": "Blank string execution context layout." },
+    "expectedStatus": 422,
+    "errorMsg": "Validation Failed"
+  }
+]
