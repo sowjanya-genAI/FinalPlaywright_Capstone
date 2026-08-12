@@ -1,0 +1,35 @@
+{
+  "cookies": [
+    {
+      "name": "logged_in",
+      "value": "yes",
+      "domain": ".github.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "user_session",
+      "value": "bLMWq2fQ2KU0Q5Zli5Jsrvb29WMdYsOy-yiP9gp86qHqIIK1",
+      "domain": ".github.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "dotcom_user",
+      "value": "bLMWq2fQ2KU0Q5Zli5Jsrvb29WMdYsOy-yiP9gp86qHqIIK1",
+      "domain": ".github.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}
