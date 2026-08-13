@@ -2,21 +2,23 @@ import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class RepositoryPage extends BasePage {
-    readonly globalHeaderPlusBtn: Locator;
-    readonly newRepoDropdownOpt: Locator;
-    readonly repoNameInput: Locator;
-    readonly newrepodescriptionInput: Locator;
-    readonly initReadmeBtn: Locator;
-    readonly createRepoSubmitBtn: Locator;
-    readonly fileTreeArea: Locator;
-    //metadata locators
-    readonly aboutSettingsGearIcon: Locator;
-    readonly descriptionInput: Locator;
-    readonly websiteInput: Locator;
-    readonly topicsInput: Locator;
-    readonly saveAboutChangesBtn: Locator;
+    readonly globalHeaderPlusBtn = this.page.getByRole('button', { name: 'Create new...' });
+    readonly newRepoDropdownOpt = this.page.getByRole('menuitem', { name: 'New repository' });
+    readonly newrepodescriptionInput = this.page.getByRole('textbox', { name: 'Description' })
+    readonly repoNameInput = this.page.getByRole('textbox', { name: 'Repository name *' });
+    readonly initReadmeBtn = this.page.getByRole('button', { name: 'Add README' });
+    readonly createRepoSubmitBtn = this.page.getByRole('button', { name: /^Create repository$/i });
+    readonly fileTreeArea = this.page.locator('#repo-content-pjax-container');
 
-    private readonly readmeFileLink: Locator;
+    // Metadata / About Settings Locators
+    readonly aboutSettingsGearIcon = this.page.getByRole('button', { name: 'Edit repository metadata' });
+    readonly descriptionInput = this.page.getByRole('textbox', { name: 'Description' });
+    readonly websiteInput = this.page.getByRole('textbox', { name: 'Website' });
+    readonly topicsInput = this.page.getByRole('combobox', { name: 'Add topics' });
+    readonly saveAboutChangesBtn = this.page.getByRole('button', { name: 'Save changes' });
+
+    // Verification Assertions Locators
+    private readonly readmeFileLink = this.page.getByRole('link', { name: 'README.md' });
     // Add File Control Locators
     private readonly addFileDropdownTrigger = this.page.getByRole('button', { name: /Add file/i });
     private readonly createNewFileOption = this.page.getByRole('menuitem', { name: /Create new file/i });
@@ -30,14 +32,14 @@ export class RepositoryPage extends BasePage {
     private readonly proposeChangesBtn = this.page.getByRole('button', { name: /^Propose changes$/i });
     private readonly createnewbranchRadioBtn = this.page.getByRole('radio', { name: 'Create a new branch for this commit and' });
 
-    private readonly renderedDescription = (desc: string) => this.page.getByRole('paragraph').filter({ hasText: 'Automation System Engine' })
+    private readonly renderedDescription = (desc: string) => this.page.getByRole('paragraph').filter({ hasText: desc });
     private readonly renderedTopic = (topic: string) => this.page.getByRole('link', { name: `${topic}` });
     private readonly settingsTabLink = this.page.getByRole('link', { name: /Settings/i });
 
     // Danger Zone Deletion Elements
     private readonly deleteRepoButtonTrigger = this.page.getByRole('button', { name: /Delete this repository/i });
-    private readonly passwordTextInput=this.page.getByRole('textbox',{name:'Password'});
-     private readonly confirmBtn = this.page.getByRole('button', { name: 'Confirm' });
+    private readonly passwordTextInput = this.page.getByRole('textbox', { name: 'Password' });
+    private readonly confirmBtn = this.page.getByRole('button', { name: 'Confirm' });
     // Multi-Step Modal Dialog Selectors (GitHub UI Verification Sequence)
     private readonly firstAcknowledgeBtn = this.page.getByRole('button', { name: /I want to delete this repository/i });
     private readonly secondAcknowledgeBtn = this.page.getByRole('button', { name: /I have read and understand these effects/i });
@@ -49,24 +51,6 @@ export class RepositoryPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.globalHeaderPlusBtn = page.getByRole('button', { name: 'Create new...' });
-        this.newRepoDropdownOpt = page.getByRole('menuitem', { name: 'New repository' });
-        this.newrepodescriptionInput = page.getByRole('textbox', { name: 'Description' })
-        this.repoNameInput = page.getByRole('textbox', { name: 'Repository name *' });
-        this.initReadmeBtn = page.getByRole('button', { name: 'Add README' });
-        this.createRepoSubmitBtn = page.getByRole('button', { name: /^Create repository$/i });
-        this.fileTreeArea = page.locator('#repo-content-pjax-container');
-
-        // Metadata / About Settings Locators
-        this.aboutSettingsGearIcon = page.getByRole('button', { name: 'Edit repository metadata' });
-        this.descriptionInput = page.getByRole('textbox', { name: 'Description' });
-        this.websiteInput = page.getByRole('textbox', { name: 'Website' });
-        this.topicsInput = page.getByRole('combobox', { name: 'Add topics' });
-        this.saveAboutChangesBtn = page.getByRole('button', { name: 'Save changes' });
-
-        // Verification Assertions Locators
-        this.readmeFileLink = this.page.getByRole('link', { name: 'README.md' });
-
     }
 
     async createNewRepositoryFromUI(name: string, desc: string) {
@@ -74,10 +58,11 @@ export class RepositoryPage extends BasePage {
             await this.repoNameInput.fill(name);
             await this.newrepodescriptionInput.fill(desc)
             await this.initReadmeBtn.click();
-             await this.createRepoSubmitBtn.scrollIntoViewIfNeeded();
-                await expect(this.createRepoSubmitBtn, 'FAILED: The "Create repository" button was blocked or left disabled by background validation processing loops.').toBeEnabled({ timeout: 5000 });
+            await this.createRepoSubmitBtn.scrollIntoViewIfNeeded();
+            await expect(this.createRepoSubmitBtn, 'FAILED: The "Create repository" button was blocked or left disabled by background validation processing loops.').toBeEnabled({ timeout: 5000 });
             await this.createRepoSubmitBtn.focus();
-      await this.page.keyboard.press('Enter');
+            //await this.page.keyboard.press('Enter');
+            await this.createRepoSubmitBtn.click({ force: true, timeout: 6000 });
         });
     }
 
@@ -128,11 +113,11 @@ export class RepositoryPage extends BasePage {
             await this.createnewbranchRadioBtn.check();
             // 5. Confirm and dispatch standard commit directly to main branch
             await expect(this.proposeChangesBtn, 'FAILED: The final commit confirmation button was disabled or blocked.').toBeEnabled();
-            await this.proposeChangesBtn.click({timeout:2000});            
+            await this.proposeChangesBtn.click({ timeout: 2000 });
         });
     }
 
-    async purgeAndRepositoryPermanently(fullRepoPath: string,owner:string,pwd:string) {
+    async purgeAndRepositoryPermanently(fullRepoPath: string, owner: string, pwd: string) {
         await this.step(`Navigate to Danger Zone settings to delete repository: ${fullRepoPath}`, async () => {
             // 1. Enter the Repository administration configuration area
             await this.settingsTabLink.click();
