@@ -47,7 +47,7 @@ export class SearchPage extends BasePage {
       // 2. FIX: Force Playwright to wait until the modal structure is stable and visible
       await expect(this.pinCustomizerModal.first(), 'FAILED: Customize pins modal configuration panel failed to open.').toBeVisible({ timeout: 5000 });
 
-     const checkedCount = await this.activeCheckedPins.count();
+      const checkedCount = await this.activeCheckedPins.count();
       if (checkedCount > 0) {
         console.log(`[INFO]: Detected ${checkedCount} active pins. Clearing the first layout slot...`);
         const firstActivePin = this.activeCheckedPins.first();
@@ -58,7 +58,10 @@ export class SearchPage extends BasePage {
       await this.filterReposInput.fill(targetRepoName);
 
       const targetingCheckbox = this.page.getByRole('checkbox', { name: targetRepoName });;
-      await targetingCheckbox.check();
+      await targetingCheckbox.scrollIntoViewIfNeeded();
+
+      // 2. Click with force parameters to trigger the underlying custom listener
+      await targetingCheckbox.click({ force: true });
 
       await this.savePinsBtn.click();
     });

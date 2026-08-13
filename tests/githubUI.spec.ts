@@ -8,8 +8,9 @@ import { SearchPage } from '../src/Pages/SearchPage';
 import { DashboardPage } from '../src/Pages/DashboardPage';
 
 const owner = process.env.GITHUB_USERNAME!;
+const pwd = process.env.GITHUB_PASS!;
 const TOKEN = process.env.GITHUB_TOKEN;
-
+test.describe.configure({ mode: 'serial' });
 test.describe('GitHub E2E Framework Automation Suite', () => {
     let repo: RepositoryPage;
     const now = new Date();
@@ -152,7 +153,7 @@ test.describe('GitHub E2E Framework Automation Suite', () => {
    test('TC013 - Permanent Repository Deletion and UI Confirmation', async ({ page }) => {
     await page.goto(`/${owner}/${repoName}`);
 
-    await repo.purgeAndRepositoryPermanently(repoName,owner);
+    await repo.purgeAndRepositoryPermanently(repoName,owner,pwd);
     await repo.verifyRepositoryDeletionConfirmed();
   });
 

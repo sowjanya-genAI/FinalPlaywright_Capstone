@@ -4,7 +4,7 @@ import { epic, feature, story, severity, owner, issue, step, attachment } from '
 import negativeIssueData from '../data/negativeTestData.json';
 
 const GITHUB_OWNER = process.env.GITHUB_USER || 'sowjanya-genAI';
-
+test.describe.configure({ mode: 'serial' });
 test.describe('GitHub REST API Negative Validation Guardrails', () => {
     let repoPage: GitHubRepoPage;
     const testBaseRepo = 'api-automation-test-2';

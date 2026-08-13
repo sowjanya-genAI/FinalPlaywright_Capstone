@@ -36,7 +36,8 @@ export class RepositoryPage extends BasePage {
 
     // Danger Zone Deletion Elements
     private readonly deleteRepoButtonTrigger = this.page.getByRole('button', { name: /Delete this repository/i });
-
+    private readonly passwordTextInput=this.page.getByRole('textbox',{name:'Password'});
+     private readonly confirmBtn = this.page.getByRole('button', { name: 'Confirm' });
     // Multi-Step Modal Dialog Selectors (GitHub UI Verification Sequence)
     private readonly firstAcknowledgeBtn = this.page.getByRole('button', { name: /I want to delete this repository/i });
     private readonly secondAcknowledgeBtn = this.page.getByRole('button', { name: /I have read and understand these effects/i });
@@ -131,7 +132,7 @@ export class RepositoryPage extends BasePage {
         });
     }
 
-    async purgeAndRepositoryPermanently(fullRepoPath: string,owner:string) {
+    async purgeAndRepositoryPermanently(fullRepoPath: string,owner:string,pwd:string) {
         await this.step(`Navigate to Danger Zone settings to delete repository: ${fullRepoPath}`, async () => {
             // 1. Enter the Repository administration configuration area
             await this.settingsTabLink.click();
@@ -148,6 +149,10 @@ export class RepositoryPage extends BasePage {
             // 6. Execute final deletion closure click execution
             await expect(this.finalDeleteConfirmationBtn, 'FAILED: Final deletion execution button was kept disabled; verification path string input mismatch.').toBeEnabled();
             await this.finalDeleteConfirmationBtn.click();
+
+            await this.passwordTextInput.fill(pwd);
+            await this.confirmBtn.click();
+
         });
     }
 

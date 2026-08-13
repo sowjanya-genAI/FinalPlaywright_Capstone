@@ -39,6 +39,7 @@ export class IssuePage extends BasePage {
 
   async addCommentAndReaction(comment: string) {
     await this.step('Append comment thread statement with emoji heart trigger', async () => {
+      await this.commentTextArea.scrollIntoViewIfNeeded();
       await this.commentTextArea.fill(comment);
       await this.submitCommentBtn.click();
 

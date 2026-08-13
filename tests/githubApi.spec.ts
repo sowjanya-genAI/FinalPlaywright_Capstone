@@ -5,7 +5,7 @@ import repoData from '../data/repoTestData.json';
 import issueData from '../data/issueTestData.json';
 
 const GITHUB_OWNER = process.env.GITHUB_USERNAME!; 
-
+test.describe.configure({ mode: 'serial' });
 test.describe('GitHub REST API Engineering Pipeline Verifications', () => {
     let repoPage: GitHubRepoPage;
      let customContext; // Reference to hold clean runtime engine
