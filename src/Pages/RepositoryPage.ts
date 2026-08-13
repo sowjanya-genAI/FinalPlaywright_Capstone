@@ -135,8 +135,10 @@ export class RepositoryPage extends BasePage {
             await expect(this.finalDeleteConfirmationBtn, 'FAILED: Final deletion execution button was kept disabled; verification path string input mismatch.').toBeEnabled();
             await this.finalDeleteConfirmationBtn.click();
 
-            await this.passwordTextInput.fill(pwd);
-            await this.confirmBtn.click();
+            if (await this.passwordTextInput.isVisible()) {
+                await this.passwordTextInput.fill(pwd);
+                await this.confirmBtn.click();
+            }
 
         });
     }
