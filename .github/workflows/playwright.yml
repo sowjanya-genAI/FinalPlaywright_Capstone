@@ -37,9 +37,9 @@ jobs:
       run: xvfb-run npx playwright test
       env:
         # Injects your encrypted repository secrets into environment variables
-        GITHUB_USER: ${{ secrets.USERNAME }}
+        GITHUB_USERNAME: ${{ secrets.USERNAME }}
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        GITHUB_USER_SESSION: ${{ secrets.USER_TOKEN }}
+        GITHUB_USER_TOKEN: ${{ secrets.USER_TOKEN }}
     - uses: actions/upload-artifact@v5
       if: ${{ !cancelled() }}
       with:
