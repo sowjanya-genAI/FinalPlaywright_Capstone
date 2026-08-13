@@ -34,7 +34,7 @@ jobs:
 
        # 🔐 INJECT ENVIRONMENT SECRETS HERE
     - name: Execute Automated Web UI & API Tests
-      run: npx playwright test
+      run: xvfb-run npx playwright test
       env:
         # Injects your encrypted repository secrets into environment variables
         GITHUB_USER: ${{ secrets.USERNAME }}
