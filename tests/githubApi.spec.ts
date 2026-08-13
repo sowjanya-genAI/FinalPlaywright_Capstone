@@ -76,7 +76,6 @@ test.describe('GitHub REST API Engineering Pipeline Verifications', () => {
         expect(response.status()).toBe(200);
 
         const body = await response.json();
-        console.log(body);
         expect(Array.isArray(body)).toBe(true);
         expect(body.length).toBeGreaterThanOrEqual(3);
     });

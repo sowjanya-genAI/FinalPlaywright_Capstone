@@ -6,7 +6,7 @@ export class IssuePage extends BasePage {
   private readonly titleInput = this.page.getByRole('textbox', { name: 'Add a title' });
   private readonly bodyTextArea = this.page.getByRole('textbox', { name: 'Markdown value' });
   private readonly submitIssueBtn = this.page.getByTestId('create-issue-button');
-  private readonly commentTextArea = this.page.getByRole('textbox', { name: 'Add a comment' });
+  private readonly commentTextArea = this.page.locator('textarea').and(this.page.getByPlaceholder(/Add a comment/i));;
   private readonly submitCommentBtn = this.page.getByRole('button', { name: 'Comment', exact: true });
 
  private readonly assigneesSidebarTrigger = this.page.getByRole('button', { name: 'Edit Assignees' });
@@ -39,7 +39,9 @@ export class IssuePage extends BasePage {
 
   async addCommentAndReaction(comment: string) {
     await this.step('Append comment thread statement with emoji heart trigger', async () => {
+       await this.commentTextArea.waitFor({ state: 'visible', timeout: 7000 });
       await this.commentTextArea.scrollIntoViewIfNeeded();
+      await this.commentTextArea.focus();
       await this.commentTextArea.fill(comment);
       await this.submitCommentBtn.click();
 
