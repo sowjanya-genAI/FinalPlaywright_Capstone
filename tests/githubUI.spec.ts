@@ -10,7 +10,7 @@ import { DashboardPage } from '../src/Pages/DashboardPage';
 const owner = process.env.GITHUB_USERNAME!;
 const pwd = process.env.GITHUB_PASS!;
 const TOKEN = process.env.GITHUB_TOKEN;
-test.describe.configure({ mode: 'serial' });
+
 test.describe('GitHub E2E Framework Automation Suite', () => {
     let repo: RepositoryPage;
     const now = new Date();
